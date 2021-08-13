@@ -1,0 +1,304 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Corda（2）——示例 | chl'blog</title><meta name="keywords" content="Corda"><meta name="author" content="chl"><meta name="copyright" content="chl"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="运行官方的例子">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Corda（2）——示例">
+<meta property="og:url" content="https://chl-git.github.io/posts/63bb09b4/index.html">
+<meta property="og:site_name" content="chl&#39;blog">
+<meta property="og:description" content="运行官方的例子">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://chl-git.github.io/posts/63bb09b4/cover.jpeg">
+<meta property="article:published_time" content="2021-04-03T13:29:56.000Z">
+<meta property="article:modified_time" content="2021-06-15T14:28:48.703Z">
+<meta property="article:author" content="chl">
+<meta property="article:tag" content="Corda">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://chl-git.github.io/posts/63bb09b4/cover.jpeg"><link rel="shortcut icon" href="/img/avatar.jpeg"><link rel="canonical" href="https://chl-git.github.io/posts/63bb09b4/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/../../source/css/all.min.css"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"这篇文章已经有","messageNext":"天没有更新了，内容可能已经过期"},
+  highlight: {"plugin":"prismjs","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2021-06-15 22:28:48'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><script> <console class="log" hello></console><let>i = document.getElementsByClassName('fa-spin').style</let><i class="style -webkit-animation">= ''</i><i class="animation">= ''</i></script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="chl'blog" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/avatar.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">42</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/posts/63bb09b4/cover.jpeg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">chl'blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">Corda（2）——示例</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-04-03T13:29:56.000Z" title="发表于 2021-04-03 21:29:56">2021-04-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-06-15T14:28:48.703Z" title="更新于 2021-06-15 22:28:48">2021-06-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Corda/">Corda</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">691</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>2分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Corda（2）——示例"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div><article class="post-content" id="article-container"><h2 id="运行Corda的示例"><a href="#运行Corda的示例" class="headerlink" title="运行Corda的示例"></a>运行Corda的示例</h2><h3 id="下载源码-java版"><a href="#下载源码-java版" class="headerlink" title="下载源码(java版)"></a>下载源码(java版)</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> <span class="token punctuation">[</span>your workspace<span class="token punctuation">]</span>
+<span class="token function">git</span> clone https://github.com/corda/samples-java.git
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="在IDE中打开samples-java-Basic-cordapp-examples"><a href="#在IDE中打开samples-java-Basic-cordapp-examples" class="headerlink" title="在IDE中打开samples-java/Basic/cordapp-examples"></a>在IDE中打开samples-java/Basic/cordapp-examples</h3><p>目录结构如下：</p>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml">├── LICENCE
+├── README.md
+├── TRADEMARK
+├── build.gradle
+├── clients
+│   ├── build.gradle
+│   └── src
+│       └── main
+│           ├── java
+│           │   └── net
+│           │       └── corda
+│           │           └── samples
+│           │               └── example
+│           │                   ├── Client.java
+│           │                   └── webserver
+│           │                       ├── Controller.java
+│           │                       ├── NodeRPCConnection.java
+│           │                       └── Starter.java
+│           └── resources
+│               └── static
+│                   ├── app.js
+│                   └── index.html
+├── config
+│   ├── dev
+│   │   └── log4j2.xml
+│   └── test
+│       └── log4j2.xml
+├── contracts
+│   ├── build.gradle
+│   └── src
+│       ├── main
+│       │   └── java
+│       │       └── net
+│       │           └── corda
+│       │               └── samples
+│       │                   └── example
+│       │                       ├── contracts
+│       │                       │   └── IOUContract.java
+│       │                       ├── schema
+│       │                       │   ├── IOUSchema.java
+│       │                       │   └── IOUSchemaV1.java
+│       │                       └── states
+│       │                           └── IOUState.java
+│       └── test
+│           └── java
+│               └── net
+│                   └── corda
+│                       └── samples
+│                           └── example
+│                               └── contracts
+│                                   ├── ContractTests.java
+│                                   └── StateTests.java
+├── gradle
+│   └── wrapper
+│       ├── gradle<span class="token punctuation">-</span>wrapper.jar
+│       └── gradle<span class="token punctuation">-</span>wrapper.properties
+├── gradle.properties
+├── gradlew
+├── gradlew.bat
+├── repositories.gradle
+├── settings.gradle
+└── workflows
+    ├── build.gradle
+    └── src
+        ├── integrationTest
+        │   └── java
+        │       └── net
+        │           └── corda
+        │               └── samples
+        │                   └── example
+        │                       └── DriverBasedTest.java
+        ├── main
+        │   ├── java
+        │   │   └── net
+        │   │       └── corda
+        │   │           └── samples
+        │   │               └── example
+        │   │                   └── flows
+        │   │                       └── ExampleFlow.java
+        │   └── resources
+        │       └── migration
+        │           ├── iou.changelog<span class="token punctuation">-</span>master.xml
+        │           └── iou.changelog<span class="token punctuation">-</span>v1.xml
+        └── test
+            └── java
+                └── net
+                    └── corda
+                        └── samples
+                            └── example
+                                └── FlowTests.java<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>clients文件夹包含的是用于Spring Boot集成的源码</li>
+<li>config是配置文件，包含log4j2</li>
+<li>contracts和workflows是CorDapp的源码</li>
+<li>gradle是包含Gradle Wrapper</li>
+</ul>
+<h3 id="部署节点并运行示例CorDapp"><a href="#部署节点并运行示例CorDapp" class="headerlink" title="部署节点并运行示例CorDapp"></a>部署节点并运行示例CorDapp</h3><p>打开终端输入一下命令：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">gradlew.bat deployNodes
+
+// tips可以只部署java<span class="token punctuation">(</span>或者kotlin<span class="token punctuation">)</span>
+// -b表示 --build-file
+gradlew.bat -b workflows-java/build.gradle deploynodes<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>会在根目录下创建文件夹build/nodes，里面会有三个Node文件夹（PartyA,PartyB,Notary），节点信息在根目录下的build.gradle中定义。</p>
+<p>输入如下命令运行示例CorDapp</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">call build<span class="token punctuation">\</span>nodes<span class="token punctuation">\</span>runnodes.bat<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>会打开三个如下的界面，当出现如下图红色方框所示的”welocme”语句时表示成功运行<br><img src="/posts/63bb09b4/Notary.png" alt="Notary"></p>
+<h2 id="三种交互方式"><a href="#三种交互方式" class="headerlink" title="三种交互方式"></a>三种交互方式</h2><ul>
+<li><a href="#%E9%80%9A%E8%BF%87http">通过http</a></li>
+<li><a href="#%E9%80%9A%E8%BF%87%E4%BA%A4%E4%BA%92%E5%BC%8Fshell">通过交互式shell</a></li>
+<li><a href="#%E9%80%9A%E8%BF%87h2%E7%9A%84web%E6%8E%A7%E5%88%B6%E5%8F%B0">通过h2的web控制台</a></li>
+</ul>
+<h3 id="通过http"><a href="#通过http" class="headerlink" title="通过http"></a>通过http</h3><p><u><em><strong>这一部分的内容还要进一步研究</strong></em></u></p>
+<!-- 三个几点的定义如下：
+
+* PartyA: localhost:50005
+* PartyB: localhost:50006
+* Notary: localhost:50007 -->
+
+<h3 id="通过交互式shell"><a href="#通过交互式shell" class="headerlink" title="通过交互式shell"></a>通过交互式shell</h3><p>可以直接在每个节点的shell与节点进行交互，比如在节点A和B之间创建一个IOU（i owe you）账单，在PartyA中输入如下命令：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token operator">>></span><span class="token operator">></span>flow start Initiator iouValue: <span class="token number">50</span>, otherParty: <span class="token string">"O=PartyB,L=New York,C=US"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>上面命令中<code>Initiator</code>是一个流（extends FlowLogic），<code>iouValue</code>和<code>otherParty</code>是Initiator中的两个参数。</p>
+<p>生产环境中使用Network Map Service来定义节点名字和查找节点，并使用Doorman Service管理准入</p>
+<p>得到类似如下结果：</p>
+<p><img src="/posts/63bb09b4/%E4%BA%A4%E4%BA%92%E5%BC%8Fshell%E5%88%9B%E5%BB%BAIOU.png" alt="命令行交互创建IOU"></p>
+<p>上图中出现如下信息，表示交易完成</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">Flow completed with result: SignedTransaction<span class="token punctuation">(</span>id<span class="token operator">=</span>AEE179389C8F701C940489BF208D13C09B6E8D48F6AC32979C7F0C2B0BD1B526<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>然后可以使用如下命令进行查看：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">run vaultQuery contractStateType: com.example.state.IOUState<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>在<code>PartyA</code>和<code>PartyB</code>可以查看类似如下信息，但是<code>Notary</code>是没有的，如果有其他节点也是看不到的，这正是Corda的<code>Need-to-know</code>特性。</p>
+<p><img src="/posts/63bb09b4/%E4%BA%A4%E4%BA%92%E5%BC%8Fshell%E6%9F%A5%E7%9C%8BIOU%E4%BF%A1%E6%81%AF.png" alt="查看"></p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">contractStateClassName: <span class="token string">"com.example.state.IOUState"</span>
+recordedTime: <span class="token string">"2021-04-05T00:05:24.579Z"</span>
+consumedTime: null
+status: <span class="token string">"UNCONSUMED"</span>
+notary: <span class="token string">"O=Notary, L=London, C=GB"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>可以看到是<code>UNCONSUMED</code>,<code>com.example.state.IOUState</code>是IOUState的package名。</p>
+<p>可以输入以下命令实时查看</p>
+<p>在PartyB中输入以下命令：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">run vaultTrack contractStateType com.example.state.IOUState<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>当其他节点与B进行交易时，交易信息会在PartyB实时显示。</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token punctuation">..</span>.<span class="token comment"># 省略</span>
+totalStatesAvailable: -1
+stateTypes: <span class="token string">"UNCONSUMED"</span>
+otherResults: <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+Updates:
+Waiting <span class="token keyword">for</span> completion or Ctrl-C <span class="token punctuation">..</span>.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="通过h2的web控制台"><a href="#通过h2的web控制台" class="headerlink" title="通过h2的web控制台"></a><a href="../Corda%EF%BC%883%EF%BC%89%E2%80%94%E2%80%94%E8%8A%82%E7%82%B9%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E8%AE%BF%E9%97%AE/">通过h2的web控制台</a></h3></article><div class="post-copyright"><div class="post-copyright__type"><span class="post-copyright-meta">本文链接: </span><span class="post-copyright-info"><a href="https://chl-git.github.io/posts/63bb09b4/">https://chl-git.github.io/posts/63bb09b4/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://chl-git.github.io" target="_blank">chl'blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Corda/">Corda</a></div><div class="post_share"><div class="social-share" data-image="/posts/63bb09b4/cover.jpeg" data-sites="facebook,twitter,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/f6070d29/"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Corda（3）——节点数据库配置以及访问</div></div></a></div><div class="next-post pull-right"><a href="/posts/89f97af8/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Git初识</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/f5a1c04b/" title="Corda记录"><img class="cover" src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2223982299,2443851632&fm=26&gp=0.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-04-18</div><div class="title">Corda记录</div></div></a></div><div><a href="/posts/153d6957/" title="Corda-API--Contarcts"><img class="cover" src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2223982299,2443851632&fm=26&gp=0.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-03-13</div><div class="title">Corda-API--Contarcts</div></div></a></div><div><a href="/posts/aa15b6d6/" title="Corda-API-Flows"><img class="cover" src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2223982299,2443851632&fm=26&gp=0.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-04-08</div><div class="title">Corda-API-Flows</div></div></a></div><div><a href="/posts/8984fc95/" title="Corda（1）——基础"><img class="cover" src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2223982299,2443851632&fm=26&gp=0.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-03-24</div><div class="title">Corda（1）——基础</div></div></a></div><div><a href="/posts/f6070d29/" title="Corda（3）——节点数据库配置以及访问"><img class="cover" src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2223982299,2443851632&fm=26&gp=0.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-04-05</div><div class="title">Corda（3）——节点数据库配置以及访问</div></div></a></div><div><a href="/posts/b07c1e78/" title="Corda（4）——单元测试"><img class="cover" src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2223982299,2443851632&fm=26&gp=0.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-04-05</div><div class="title">Corda（4）——单元测试</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/avatar.jpeg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">chl</div><div class="author-info__description">在校大学生一枚，懒</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">42</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">本站内容仅用于自己日常学习记录，不做商业用途</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8CCorda%E7%9A%84%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.</span> <span class="toc-text">运行Corda的示例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E6%BA%90%E7%A0%81-java%E7%89%88"><span class="toc-number">1.1.</span> <span class="toc-text">下载源码(java版)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8IDE%E4%B8%AD%E6%89%93%E5%BC%80samples-java-Basic-cordapp-examples"><span class="toc-number">1.2.</span> <span class="toc-text">在IDE中打开samples-java&#x2F;Basic&#x2F;cordapp-examples</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E8%8A%82%E7%82%B9%E5%B9%B6%E8%BF%90%E8%A1%8C%E7%A4%BA%E4%BE%8BCorDapp"><span class="toc-number">1.3.</span> <span class="toc-text">部署节点并运行示例CorDapp</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E7%A7%8D%E4%BA%A4%E4%BA%92%E6%96%B9%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">三种交互方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87http"><span class="toc-number">2.1.</span> <span class="toc-text">通过http</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E4%BA%A4%E4%BA%92%E5%BC%8Fshell"><span class="toc-number">2.2.</span> <span class="toc-text">通过交互式shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87h2%E7%9A%84web%E6%8E%A7%E5%88%B6%E5%8F%B0"><span class="toc-number">2.3.</span> <span class="toc-text">通过h2的web控制台</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/2c9e36bd/" title="javaSE"><img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2223982299,2443851632&amp;fm=26&amp;gp=0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="javaSE"/></a><div class="content"><a class="title" href="/posts/2c9e36bd/" title="javaSE">javaSE</a><time datetime="2021-06-16T09:32:18.337Z" title="更新于 2021-06-16 17:32:18">2021-06-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d508ea0d/" title="连接非同一网段的另一台主机上的虚拟机"><img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2223982299,2443851632&amp;fm=26&amp;gp=0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="连接非同一网段的另一台主机上的虚拟机"/></a><div class="content"><a class="title" href="/posts/d508ea0d/" title="连接非同一网段的另一台主机上的虚拟机">连接非同一网段的另一台主机上的虚拟机</a><time datetime="2021-06-15T15:00:33.676Z" title="更新于 2021-06-15 23:00:33">2021-06-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/310047be/" title="hexo"><img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2223982299,2443851632&amp;fm=26&amp;gp=0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="hexo"/></a><div class="content"><a class="title" href="/posts/310047be/" title="hexo">hexo</a><time datetime="2021-06-15T14:48:10.269Z" title="更新于 2021-06-15 22:48:10">2021-06-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/4327cc6a/" title="Corda（5）——Accounts"><img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2223982299,2443851632&amp;fm=26&amp;gp=0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Corda（5）——Accounts"/></a><div class="content"><a class="title" href="/posts/4327cc6a/" title="Corda（5）——Accounts">Corda（5）——Accounts</a><time datetime="2021-06-15T14:34:39.078Z" title="更新于 2021-06-15 22:34:39">2021-06-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/f6070d29/" title="Corda（3）——节点数据库配置以及访问"><img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2223982299,2443851632&amp;fm=26&amp;gp=0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Corda（3）——节点数据库配置以及访问"/></a><div class="content"><a class="title" href="/posts/f6070d29/" title="Corda（3）——节点数据库配置以及访问">Corda（3）——节点数据库配置以及访问</a><time datetime="2021-06-15T14:30:14.656Z" title="更新于 2021-06-15 22:30:14">2021-06-15</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By chl</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
