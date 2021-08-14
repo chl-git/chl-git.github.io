@@ -250,88 +250,6 @@ pip install fate-client<span aria-hidden="true" class="line-numbers-rows"><span>
       </tags>
   </entry>
   <entry>
-    <title>Corda记录</title>
-    <url>/posts/f5a1c04b/</url>
-    <content><![CDATA[<h2 id="UTXO模型"><a href="#UTXO模型" class="headerlink" title="UTXO模型"></a>UTXO模型</h2><h2 id="考虑的问题"><a href="#考虑的问题" class="headerlink" title="考虑的问题"></a>考虑的问题</h2><ul>
-<li>怎么满足的用户的隐私要求</li>
-<li>不同机构之间的数据怎进行联邦学习</li>
-<li>监管怎么考虑：这个只是对于监管提供了部分数据的接口</li>
-<li>使用Corda的优缺点：<ul>
-<li>need-to-know</li>
-<li>交易记录不公开，只需要记录自己参与的，保障隐私的同时，进一步减少需要存储的交易数量。</li>
-</ul>
-</li>
-<li>为什么银行会有你的交易记录？？？<ul>
-<li>如果没有怎么监管，或者说你监管的是什么。</li>
-<li>只是监管账号的发行？</li>
-<li>银行为什么给你发货币。</li>
-</ul>
-</li>
-</ul>
-<h2 id="Corda智能合约"><a href="#Corda智能合约" class="headerlink" title="Corda智能合约"></a>Corda智能合约</h2><p>定义：一组数据以及一个参与方被允许对这些数据执行的操作组成。（states and contracts）</p>
-<p>合约定义了什么可以做而不是什么不可以做。除了里面定义的不能做的事，其他都可以做。所以在设计时就需要考虑足够的参与方交易行为的约束。</p>
-<p>节点需要对state本身进行检验，以保证交易合法</p>
-<h2 id="Flow"><a href="#Flow" class="headerlink" title="Flow"></a>Flow</h2><p>对于同一个节点的账户，要执行转账操作（<code>MoveFungibleTokenFlow</code>），这个flow只能在保存该账户资产的节点上进行调用，因为这个flow没有识别身份的参数，在使用过程中会默认把执行流操作的节点作为该账户资产的拥有者，然后在本地查找需要转出的资金的账户信息，这将导致错误。</p>
-<p>流执行是要求可以进行断点记录的，就是交易对方（counterParty）或者是公证人如果没有上线，收集签名的时候需要等待对方上线执行，主要是用在不同节点的交易记录。</p>
-<h2 id="交易限制"><a href="#交易限制" class="headerlink" title="交易限制"></a>交易限制</h2><p>基本的匿名账户的限额问题，</p>
-<blockquote>
-<p>限制<strong>单次</strong>转出的金额。</p>
-</blockquote>
-<p>这个可以在合约里面进行验证，匿名账户和完成身份信息认证的账户有自己身份标识</p>
-<blockquote>
-<p>限制转入转出次数，</p>
-</blockquote>
-<p>银行作为托管账户，是可以知道交易双方的基本信息的，（因为需根据匿名性的需要，我们可以在每次交易时都生成一个publickey，因为账户在网络层面是不可见的，一方收到签名只会以为是对方节点<code>Node</code>换了个key进行签名）</p>
-<p>但是对于交易的金额是不能够知道的，这一部分具体实现是怎么做到的，需要考虑一下。</p>
-<p>我可以在数据库中实时更新账户的转入转出次数，当达到限定次数之后。</p>
-<p>解决方案：<br>场景1：一个人注册多个匿名账号的数据信息</p>
-<p>银行不应该有以下数据信息：</p>
-<ul>
-<li>不同账户数据之间的关联信息</li>
-<li>交易详细的数据记录，场景中主要是交易的金额。<br>这里有一个问题是为什么会记录用户账户的记录，可不可以直接对整个交易内容全部进行加密进行加密。<br>个人如果对全部的信息进行加密，那么在进行账户交易次数的验证的时候，银行本身进行数据的查询是没有可行性的。</li>
-</ul>
-<h2 id="后面研究方向"><a href="#后面研究方向" class="headerlink" title="后面研究方向"></a>后面研究方向</h2><p>私钥管理，托管账户的节点会保存所有账户每次申请的私钥，后面处理第三方数据</p>
-<p>联邦学习实现不同机构间的数据进行建模，消除第三方机构。</p>
-<p>系统监管或者说验证的时间间隔，也就是每天进行记录的检验还是其他的给定的数据验证的间隔时间。</p>
-<p>多银行之间的数据如何进行有效的校对、验证和监管。据悉，现今意大利各地银行都在使用R3的Corda区块链用以加快对交易记录的双重检查。意大利银行协会负责人表示，银行间对账流程与数据交换基础技术都必须改变。在旧的银行系统中需要花费30至50天的对账，在Corda上一天之内就能完成。</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">//Buyer Query for token balance.</span>
-<span class="token class-name">QueryCriteria</span> queryCriteria <span class="token operator">=</span> <span class="token class-name">QueryUtilities</span><span class="token punctuation">.</span><span class="token function">heldTokenAmountCriteria</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span>currency<span class="token punctuation">)</span><span class="token punctuation">,</span> senderAccount<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token class-name">QueryUtilities</span><span class="token punctuation">.</span><span class="token function">sumTokenCriteria</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Object</span><span class="token punctuation">></span></span> sum <span class="token operator">=</span> <span class="token function">getServiceHub</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getVaultService</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">queryBy</span><span class="token punctuation">(</span><span class="token class-name">FungibleToken</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> queryCriteria<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">component5</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">if</span><span class="token punctuation">(</span>sum<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
-    <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">FlowException</span><span class="token punctuation">(</span>senderAccountName <span class="token operator">+</span> <span class="token string">" has 0 token balance. Please ask the Bank to issue some cash."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
-    <span class="token class-name">Long</span> tokenBalance <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">Long</span><span class="token punctuation">)</span> sum<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">if</span><span class="token punctuation">(</span>tokenBalance <span class="token operator">&lt;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>amount<span class="token punctuation">)</span>
-        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">FlowException</span><span class="token punctuation">(</span><span class="token string">"Available token balance of "</span> <span class="token operator">+</span> senderAccountName <span class="token operator">+</span> <span class="token string">" is less than the cost of the ticket. Please ask the Bank to issue some cash if you wish to buy the ticket "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">SignedTransaction</span> moveTokensTx <span class="token operator">=</span> <span class="token function">subFlow</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">MoveFungibleTokens</span><span class="token punctuation">(</span>
-    <span class="token class-name">Collections</span><span class="token punctuation">.</span><span class="token function">singletonList</span><span class="token punctuation">(</span>partyAndAmount<span class="token punctuation">)</span><span class="token punctuation">,</span> 
-    <span class="token class-name">Collections</span><span class="token punctuation">.</span><span class="token function">emptyList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-    heldByMint<span class="token punctuation">,</span> mint<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token comment">// Persist token-transaction.</span>
-<span class="token class-name">PersistentTokenTransaction</span> tokenTransaction <span class="token operator">=</span> 
-    <span class="token keyword">new</span> <span class="token class-name">PersistentTokenTransaction</span><span class="token punctuation">(</span>
-        <span class="token keyword">new</span> <span class="token class-name">UniqueIdentifier</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-        moveTokensTx<span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token class-name">Instant</span><span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-        <span class="token string">"MOVE"</span><span class="token punctuation">,</span> 
-        <span class="token string">"Mint"</span><span class="token punctuation">,</span> 
-        <span class="token string">"HolderA"</span><span class="token punctuation">,</span>
-        <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token function">getServiceHub</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">withEntityManager</span><span class="token punctuation">(</span>entityManager <span class="token operator">-></span> <span class="token punctuation">&#123;</span>
-    entityManager<span class="token punctuation">.</span><span class="token function">persist</span><span class="token punctuation">(</span>tokenTransaction<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-]]></content>
-      <categories>
-        <category>Corda</category>
-      </categories>
-      <tags>
-        <tag>Corda</tag>
-        <tag>UTXO模型</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Corda-API--Contarcts</title>
     <url>/posts/153d6957/</url>
     <content><![CDATA[<p>对于Corda，需要熟悉的API的使用才能在处理业务逻辑的时候利用好平台的接口编写正确的代码。</p>
@@ -447,6 +365,88 @@ session<span class="token punctuation">.</span><span class="token function">use<
         <tag>Corda</tag>
         <tag>Corda-API</tag>
         <tag>Flow</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Corda记录</title>
+    <url>/posts/f5a1c04b/</url>
+    <content><![CDATA[<h2 id="UTXO模型"><a href="#UTXO模型" class="headerlink" title="UTXO模型"></a>UTXO模型</h2><h2 id="考虑的问题"><a href="#考虑的问题" class="headerlink" title="考虑的问题"></a>考虑的问题</h2><ul>
+<li>怎么满足的用户的隐私要求</li>
+<li>不同机构之间的数据怎进行联邦学习</li>
+<li>监管怎么考虑：这个只是对于监管提供了部分数据的接口</li>
+<li>使用Corda的优缺点：<ul>
+<li>need-to-know</li>
+<li>交易记录不公开，只需要记录自己参与的，保障隐私的同时，进一步减少需要存储的交易数量。</li>
+</ul>
+</li>
+<li>为什么银行会有你的交易记录？？？<ul>
+<li>如果没有怎么监管，或者说你监管的是什么。</li>
+<li>只是监管账号的发行？</li>
+<li>银行为什么给你发货币。</li>
+</ul>
+</li>
+</ul>
+<h2 id="Corda智能合约"><a href="#Corda智能合约" class="headerlink" title="Corda智能合约"></a>Corda智能合约</h2><p>定义：一组数据以及一个参与方被允许对这些数据执行的操作组成。（states and contracts）</p>
+<p>合约定义了什么可以做而不是什么不可以做。除了里面定义的不能做的事，其他都可以做。所以在设计时就需要考虑足够的参与方交易行为的约束。</p>
+<p>节点需要对state本身进行检验，以保证交易合法</p>
+<h2 id="Flow"><a href="#Flow" class="headerlink" title="Flow"></a>Flow</h2><p>对于同一个节点的账户，要执行转账操作（<code>MoveFungibleTokenFlow</code>），这个flow只能在保存该账户资产的节点上进行调用，因为这个flow没有识别身份的参数，在使用过程中会默认把执行流操作的节点作为该账户资产的拥有者，然后在本地查找需要转出的资金的账户信息，这将导致错误。</p>
+<p>流执行是要求可以进行断点记录的，就是交易对方（counterParty）或者是公证人如果没有上线，收集签名的时候需要等待对方上线执行，主要是用在不同节点的交易记录。</p>
+<h2 id="交易限制"><a href="#交易限制" class="headerlink" title="交易限制"></a>交易限制</h2><p>基本的匿名账户的限额问题，</p>
+<blockquote>
+<p>限制<strong>单次</strong>转出的金额。</p>
+</blockquote>
+<p>这个可以在合约里面进行验证，匿名账户和完成身份信息认证的账户有自己身份标识</p>
+<blockquote>
+<p>限制转入转出次数，</p>
+</blockquote>
+<p>银行作为托管账户，是可以知道交易双方的基本信息的，（因为需根据匿名性的需要，我们可以在每次交易时都生成一个publickey，因为账户在网络层面是不可见的，一方收到签名只会以为是对方节点<code>Node</code>换了个key进行签名）</p>
+<p>但是对于交易的金额是不能够知道的，这一部分具体实现是怎么做到的，需要考虑一下。</p>
+<p>我可以在数据库中实时更新账户的转入转出次数，当达到限定次数之后。</p>
+<p>解决方案：<br>场景1：一个人注册多个匿名账号的数据信息</p>
+<p>银行不应该有以下数据信息：</p>
+<ul>
+<li>不同账户数据之间的关联信息</li>
+<li>交易详细的数据记录，场景中主要是交易的金额。<br>这里有一个问题是为什么会记录用户账户的记录，可不可以直接对整个交易内容全部进行加密进行加密。<br>个人如果对全部的信息进行加密，那么在进行账户交易次数的验证的时候，银行本身进行数据的查询是没有可行性的。</li>
+</ul>
+<h2 id="后面研究方向"><a href="#后面研究方向" class="headerlink" title="后面研究方向"></a>后面研究方向</h2><p>私钥管理，托管账户的节点会保存所有账户每次申请的私钥，后面处理第三方数据</p>
+<p>联邦学习实现不同机构间的数据进行建模，消除第三方机构。</p>
+<p>系统监管或者说验证的时间间隔，也就是每天进行记录的检验还是其他的给定的数据验证的间隔时间。</p>
+<p>多银行之间的数据如何进行有效的校对、验证和监管。据悉，现今意大利各地银行都在使用R3的Corda区块链用以加快对交易记录的双重检查。意大利银行协会负责人表示，银行间对账流程与数据交换基础技术都必须改变。在旧的银行系统中需要花费30至50天的对账，在Corda上一天之内就能完成。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">//Buyer Query for token balance.</span>
+<span class="token class-name">QueryCriteria</span> queryCriteria <span class="token operator">=</span> <span class="token class-name">QueryUtilities</span><span class="token punctuation">.</span><span class="token function">heldTokenAmountCriteria</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span>currency<span class="token punctuation">)</span><span class="token punctuation">,</span> senderAccount<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token class-name">QueryUtilities</span><span class="token punctuation">.</span><span class="token function">sumTokenCriteria</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Object</span><span class="token punctuation">></span></span> sum <span class="token operator">=</span> <span class="token function">getServiceHub</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getVaultService</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">queryBy</span><span class="token punctuation">(</span><span class="token class-name">FungibleToken</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> queryCriteria<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">component5</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span><span class="token punctuation">(</span>sum<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">FlowException</span><span class="token punctuation">(</span>senderAccountName <span class="token operator">+</span> <span class="token string">" has 0 token balance. Please ask the Bank to issue some cash."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+    <span class="token class-name">Long</span> tokenBalance <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">Long</span><span class="token punctuation">)</span> sum<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>tokenBalance <span class="token operator">&lt;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>amount<span class="token punctuation">)</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">FlowException</span><span class="token punctuation">(</span><span class="token string">"Available token balance of "</span> <span class="token operator">+</span> senderAccountName <span class="token operator">+</span> <span class="token string">" is less than the cost of the ticket. Please ask the Bank to issue some cash if you wish to buy the ticket "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">SignedTransaction</span> moveTokensTx <span class="token operator">=</span> <span class="token function">subFlow</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">MoveFungibleTokens</span><span class="token punctuation">(</span>
+    <span class="token class-name">Collections</span><span class="token punctuation">.</span><span class="token function">singletonList</span><span class="token punctuation">(</span>partyAndAmount<span class="token punctuation">)</span><span class="token punctuation">,</span> 
+    <span class="token class-name">Collections</span><span class="token punctuation">.</span><span class="token function">emptyList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    heldByMint<span class="token punctuation">,</span> mint<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// Persist token-transaction.</span>
+<span class="token class-name">PersistentTokenTransaction</span> tokenTransaction <span class="token operator">=</span> 
+    <span class="token keyword">new</span> <span class="token class-name">PersistentTokenTransaction</span><span class="token punctuation">(</span>
+        <span class="token keyword">new</span> <span class="token class-name">UniqueIdentifier</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        moveTokensTx<span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token class-name">Instant</span><span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">"MOVE"</span><span class="token punctuation">,</span> 
+        <span class="token string">"Mint"</span><span class="token punctuation">,</span> 
+        <span class="token string">"HolderA"</span><span class="token punctuation">,</span>
+        <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">getServiceHub</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">withEntityManager</span><span class="token punctuation">(</span>entityManager <span class="token operator">-></span> <span class="token punctuation">&#123;</span>
+    entityManager<span class="token punctuation">.</span><span class="token function">persist</span><span class="token punctuation">(</span>tokenTransaction<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+]]></content>
+      <categories>
+        <category>Corda</category>
+      </categories>
+      <tags>
+        <tag>Corda</tag>
+        <tag>UTXO模型</tag>
       </tags>
   </entry>
   <entry>
@@ -774,6 +774,23 @@ java -jar corda.jar
       </tags>
   </entry>
   <entry>
+    <title>Git初识</title>
+    <url>/posts/89f97af8/</url>
+    <content><![CDATA[<p><strong>拉取代码：</strong><br>git pull</p>
+<p><strong>推本地代码上去：</strong><br>1、git status<br>2、git add [filename1] [filename2]<br>3、git commit [filename1] -m “提交信息说明”<br>4、git push</p>
+<p><strong>回退</strong><br>1、退回至缓存区的coding回退<br>git reset [filename1]<br>2、会退到制定版本<br>git reset –hard 版本号（版本号为commit后的）</p>
+<p><strong>看提交日志：</strong><br>git log<br>git log –oneline</p>
+<p><strong>分支</strong><br>1、查看分支<br>git branch<br>2、创建分支<br>git branch 分支名<br>3、切花分支<br>git checkout 分支名<br>git checkout -b 分支名（创建并切换分支）<br>4、合并某分支到当前分支<br>git merge 分支名<br>5、删除分支<br>git branch -d 分支名（强行删除 -D）</p>
+]]></content>
+      <categories>
+        <category>Git</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
+        <tag>branch</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Gradle-learning</title>
     <url>/posts/c1808150/</url>
     <content><![CDATA[<h2 id="配置文件解释"><a href="#配置文件解释" class="headerlink" title="配置文件解释"></a>配置文件解释</h2><h3 id="build-gradle"><a href="#build-gradle" class="headerlink" title="build.gradle"></a>build.gradle</h3><p>对当前项目做局部配置</p>
@@ -819,23 +836,6 @@ version &#39;1.0-SNAPSHOT&#39; &#x2F;&#x2F; 版本号 &quot;SNAPSHOT&quot;表示
       <tags>
         <tag>gradle</tag>
         <tag>依赖管理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Git初识</title>
-    <url>/posts/89f97af8/</url>
-    <content><![CDATA[<p><strong>拉取代码：</strong><br>git pull</p>
-<p><strong>推本地代码上去：</strong><br>1、git status<br>2、git add [filename1] [filename2]<br>3、git commit [filename1] -m “提交信息说明”<br>4、git push</p>
-<p><strong>回退</strong><br>1、退回至缓存区的coding回退<br>git reset [filename1]<br>2、会退到制定版本<br>git reset –hard 版本号（版本号为commit后的）</p>
-<p><strong>看提交日志：</strong><br>git log<br>git log –oneline</p>
-<p><strong>分支</strong><br>1、查看分支<br>git branch<br>2、创建分支<br>git branch 分支名<br>3、切花分支<br>git checkout 分支名<br>git checkout -b 分支名（创建并切换分支）<br>4、合并某分支到当前分支<br>git merge 分支名<br>5、删除分支<br>git branch -d 分支名（强行删除 -D）</p>
-]]></content>
-      <categories>
-        <category>Git</category>
-      </categories>
-      <tags>
-        <tag>Git</tag>
-        <tag>branch</tag>
       </tags>
   </entry>
   <entry>
@@ -937,6 +937,34 @@ println <span class="token string gstring">"hello"</span> <span aria-hidden="tru
       </tags>
   </entry>
   <entry>
+    <title>Tokens SDK</title>
+    <url>/posts/b3ff0665/</url>
+    <content><![CDATA[<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>广义来说，token有如下两个定义：</p>
+<ul>
+<li><p>存托凭证（A depository receipt）：这意味着它是对存在于账本之外的东西的分类账本表示；</p>
+</li>
+<li><p>本机令牌（A native token）：一个本机令牌，表示该值实际上存在于分类帐中，并且无法将其用于账本之外的东西，因为该东西甚至不存在于分类账之外。</p>
+</li>
+</ul>
+<p>令牌可以是<code>ContractState</code>，<code>LinearState</code>，<code>OwnableState</code>或<code>FungibleAsset</code>之一或组合，带有以下3个命令：Issue，Move和Redeem。</p>
+<p>可以根据如下设计流（design flow）为tokens构建框架：</p>
+<p><img src="/posts/b3ff0665/%E8%AE%BE%E8%AE%A1%E6%B5%81.png" alt="Design Flow"></p>
+<h3 id="TokenType"><a href="#TokenType" class="headerlink" title="TokenType"></a>TokenType</h3><p><code>TokenType</code> 是固定单位，您发出该单位的标记。它只需要一个标识符（tokenidentifier），例如 RMB，以及小数位数字的个数(fractionDigits)，这些小数位数本质上定义了令牌的最小面值。(如[RMB token-type，0.01]表示人民币的最小面额为分)。</p>
+<p>根据上面的Design Flow，TokenType在设计之后使用的整个生命周期是不可变的，但是在设计的时候可以根据需要扩展，添加除前面已经提到的标识符和小数位数之外的其他属性，但是一旦定义在流通及回收的过程中就是不可以变的。</p>
+<h3 id="EvovableTokenType"><a href="#EvovableTokenType" class="headerlink" title="EvovableTokenType"></a>EvovableTokenType</h3><p>与<code>TokenType</code> 实例不同，<code>EvolvableTokenType</code> 实例是一个 <code>LinearState</code> 实例，该实例将随着时间的推移根据相应的规则而演变。此外，还提供了部分流（<code>flows</code>）促进这种转变。</p>
+<p>可以考虑一辆车，车的品牌、型号、车的标识码是不变的，但是里程数，价格是会随着时间的推移改变的。</p>
+]]></content>
+      <categories>
+        <category>Corda</category>
+      </categories>
+      <tags>
+        <tag>SDK</tag>
+        <tag>token</tag>
+        <tag>fungible</tag>
+        <tag>non-fungible</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Markdown语法</title>
     <url>/posts/3c50d03d/</url>
     <content><![CDATA[<p>部分markdown语法的学习</p>
@@ -1020,31 +1048,49 @@ $$<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><
       </tags>
   </entry>
   <entry>
-    <title>Tokens SDK</title>
-    <url>/posts/b3ff0665/</url>
-    <content><![CDATA[<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>广义来说，token有如下两个定义：</p>
-<ul>
-<li><p>存托凭证（A depository receipt）：这意味着它是对存在于账本之外的东西的分类账本表示；</p>
-</li>
-<li><p>本机令牌（A native token）：一个本机令牌，表示该值实际上存在于分类帐中，并且无法将其用于账本之外的东西，因为该东西甚至不存在于分类账之外。</p>
-</li>
-</ul>
-<p>令牌可以是<code>ContractState</code>，<code>LinearState</code>，<code>OwnableState</code>或<code>FungibleAsset</code>之一或组合，带有以下3个命令：Issue，Move和Redeem。</p>
-<p>可以根据如下设计流（design flow）为tokens构建框架：</p>
-<p><img src="/posts/b3ff0665/%E8%AE%BE%E8%AE%A1%E6%B5%81.png" alt="Design Flow"></p>
-<h3 id="TokenType"><a href="#TokenType" class="headerlink" title="TokenType"></a>TokenType</h3><p><code>TokenType</code> 是固定单位，您发出该单位的标记。它只需要一个标识符（tokenidentifier），例如 RMB，以及小数位数字的个数(fractionDigits)，这些小数位数本质上定义了令牌的最小面值。(如[RMB token-type，0.01]表示人民币的最小面额为分)。</p>
-<p>根据上面的Design Flow，TokenType在设计之后使用的整个生命周期是不可变的，但是在设计的时候可以根据需要扩展，添加除前面已经提到的标识符和小数位数之外的其他属性，但是一旦定义在流通及回收的过程中就是不可以变的。</p>
-<h3 id="EvovableTokenType"><a href="#EvovableTokenType" class="headerlink" title="EvovableTokenType"></a>EvovableTokenType</h3><p>与<code>TokenType</code> 实例不同，<code>EvolvableTokenType</code> 实例是一个 <code>LinearState</code> 实例，该实例将随着时间的推移根据相应的规则而演变。此外，还提供了部分流（<code>flows</code>）促进这种转变。</p>
-<p>可以考虑一辆车，车的品牌、型号、车的标识码是不变的，但是里程数，价格是会随着时间的推移改变的。</p>
+    <title>hexo</title>
+    <url>/posts/310047be/</url>
+    <content><![CDATA[<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">&#123;</span>% blockquote Seth Godin http<span class="token punctuation">:</span>//sethgodin.typepad.com/seths_blog/2009/07/welcome<span class="token punctuation">-</span>to<span class="token punctuation">-</span>island<span class="token punctuation">-</span>marketing.html Welcome to Island Marketing %<span class="token punctuation">&#125;</span>
+Every interaction is both precious and an opportunity to delight.
+<span class="token punctuation">&#123;</span>% endblockquote %<span class="token punctuation">&#125;</span>
+
+<span class="token punctuation">></span> Every interaction is both precious and an opportunity to delight.
+<span class="token important">**Seth</span> Godin<span class="token important">**</span> — <span class="token punctuation">[</span><span class="token important">*Welcome</span> to Island Marketing*<span class="token punctuation">]</span>(http<span class="token punctuation">:</span>//sethgodin.typepad.com/seths_blog/2009/07/welcome<span class="token punctuation">-</span>to<span class="token punctuation">-</span>island<span class="token punctuation">-</span>marketing.html)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote><p>Every interaction is both precious and an opportunity to delight.</p>
+<footer><strong>Seth Godin <http://sethgodin.typepad.com/seths_blog/2009/07/welcome-to-island-marketing.html> Welcome to Island Marketing</strong></footer></blockquote>
+
+<blockquote>
+<p>Every interaction is both precious and an opportunity to delight.<br><strong>Seth Godin</strong> — <a href="http://sethgodin.typepad.com/seths_blog/2009/07/welcome-to-island-marketing.html"><em>Welcome to Island Marketing</em></a></p>
+</blockquote>
+<h2 id="插入YouTube视频（是可以直接播放的）"><a href="#插入YouTube视频（是可以直接播放的）" class="headerlink" title="插入YouTube视频（是可以直接播放的）"></a>插入YouTube视频（是可以直接播放的）</h2><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">&#123;</span>% youtube lJIrF4YjHfQ %<span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#123;</span>% youtube PL9hW1uS6HUfscJ9DHkOSoOX45MjXduUxo 'playlist' %<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<div class="video-container"><iframe src="https://www.youtube.com/embed/lJIrF4YjHfQ" frameborder="0" loading="lazy" allowfullscreen></iframe></div>
+<div class="video-container"><iframe src="https://www.youtube.com/embed/videoseries?list=PL9hW1uS6HUfscJ9DHkOSoOX45MjXduUxo" frameborder="0" loading="lazy" allowfullscreen></iframe></div>
+
+<h3 id="隐私模式"><a href="#隐私模式" class="headerlink" title="隐私模式"></a>隐私模式</h3><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">&#123;</span>% youtube lJIrF4YjHfQ false %<span class="token punctuation">&#125;</span> <span class="token comment"># 添加false参数</span>
+<span class="token punctuation">&#123;</span>% youtube PL9hW1uS6HUfscJ9DHkOSoOX45MjXduUxo 'playlist' false %<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h2 id="插入Vimeo视频"><a href="#插入Vimeo视频" class="headerlink" title="插入Vimeo视频"></a>插入Vimeo视频</h2><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">&#123;</span>% vimeo video_id %<span class="token punctuation">&#125;</span> <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="引用其他文章"><a href="#引用其他文章" class="headerlink" title="引用其他文章"></a>引用其他文章</h2><p><code>&#123;% post_link filename [title] [escape] %&#125;</code><br><code>[]()</code></p>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">&#123;</span>% post_link Corda<span class="token punctuation">-</span>API<span class="token punctuation">-</span>Flows %<span class="token punctuation">&#125;</span> <span class="token comment"># 找的是绝对路径</span>
+<span class="token punctuation">&#123;</span>% post_link Corda<span class="token punctuation">-</span>API<span class="token punctuation">-</span>Flows 别名 %<span class="token punctuation">&#125;</span>
+<span class="token punctuation">[</span>Corda<span class="token punctuation">-</span>API<span class="token punctuation">-</span>Flows<span class="token punctuation">]</span>(aa15b6d6.html)
+<span class="token punctuation">[</span>别名<span class="token punctuation">]</span>(Corda<span class="token punctuation">-</span>API<span class="token punctuation">-</span>Flows)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<a href="/posts/aa15b6d6/" title="Corda-API-Flows">Corda-API-Flows</a>
+
+<a href="/posts/aa15b6d6/" title="别名">别名</a>  
+<p><a href="aa15b6d6.html">Corda-API-Flows</a><br><a href="Corda-API-Flows">别名</a></p>
 ]]></content>
       <categories>
-        <category>Corda</category>
+        <category>hexo</category>
       </categories>
       <tags>
-        <tag>SDK</tag>
-        <tag>token</tag>
-        <tag>fungible</tag>
-        <tag>non-fungible</tag>
+        <tag>hexo</tag>
+        <tag>markdown</tag>
       </tags>
   </entry>
   <entry>
@@ -1478,52 +1524,6 @@ $$<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><
       <tags>
         <tag>java</tag>
         <tag>javaSE</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo</title>
-    <url>/posts/310047be/</url>
-    <content><![CDATA[<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">&#123;</span>% blockquote Seth Godin http<span class="token punctuation">:</span>//sethgodin.typepad.com/seths_blog/2009/07/welcome<span class="token punctuation">-</span>to<span class="token punctuation">-</span>island<span class="token punctuation">-</span>marketing.html Welcome to Island Marketing %<span class="token punctuation">&#125;</span>
-Every interaction is both precious and an opportunity to delight.
-<span class="token punctuation">&#123;</span>% endblockquote %<span class="token punctuation">&#125;</span>
-
-<span class="token punctuation">></span> Every interaction is both precious and an opportunity to delight.
-<span class="token important">**Seth</span> Godin<span class="token important">**</span> — <span class="token punctuation">[</span><span class="token important">*Welcome</span> to Island Marketing*<span class="token punctuation">]</span>(http<span class="token punctuation">:</span>//sethgodin.typepad.com/seths_blog/2009/07/welcome<span class="token punctuation">-</span>to<span class="token punctuation">-</span>island<span class="token punctuation">-</span>marketing.html)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<blockquote><p>Every interaction is both precious and an opportunity to delight.</p>
-<footer><strong>Seth Godin <http://sethgodin.typepad.com/seths_blog/2009/07/welcome-to-island-marketing.html> Welcome to Island Marketing</strong></footer></blockquote>
-
-<blockquote>
-<p>Every interaction is both precious and an opportunity to delight.<br><strong>Seth Godin</strong> — <a href="http://sethgodin.typepad.com/seths_blog/2009/07/welcome-to-island-marketing.html"><em>Welcome to Island Marketing</em></a></p>
-</blockquote>
-<h2 id="插入YouTube视频（是可以直接播放的）"><a href="#插入YouTube视频（是可以直接播放的）" class="headerlink" title="插入YouTube视频（是可以直接播放的）"></a>插入YouTube视频（是可以直接播放的）</h2><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">&#123;</span>% youtube lJIrF4YjHfQ %<span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#123;</span>% youtube PL9hW1uS6HUfscJ9DHkOSoOX45MjXduUxo 'playlist' %<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<div class="video-container"><iframe src="https://www.youtube.com/embed/lJIrF4YjHfQ" frameborder="0" loading="lazy" allowfullscreen></iframe></div>
-<div class="video-container"><iframe src="https://www.youtube.com/embed/videoseries?list=PL9hW1uS6HUfscJ9DHkOSoOX45MjXduUxo" frameborder="0" loading="lazy" allowfullscreen></iframe></div>
-
-<h3 id="隐私模式"><a href="#隐私模式" class="headerlink" title="隐私模式"></a>隐私模式</h3><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">&#123;</span>% youtube lJIrF4YjHfQ false %<span class="token punctuation">&#125;</span> <span class="token comment"># 添加false参数</span>
-<span class="token punctuation">&#123;</span>% youtube PL9hW1uS6HUfscJ9DHkOSoOX45MjXduUxo 'playlist' false %<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<h2 id="插入Vimeo视频"><a href="#插入Vimeo视频" class="headerlink" title="插入Vimeo视频"></a>插入Vimeo视频</h2><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">&#123;</span>% vimeo video_id %<span class="token punctuation">&#125;</span> <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="引用其他文章"><a href="#引用其他文章" class="headerlink" title="引用其他文章"></a>引用其他文章</h2><p><code>&#123;% post_link filename [title] [escape] %&#125;</code><br><code>[]()</code></p>
-<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">&#123;</span>% post_link Corda<span class="token punctuation">-</span>API<span class="token punctuation">-</span>Flows %<span class="token punctuation">&#125;</span> <span class="token comment"># 找的是绝对路径</span>
-<span class="token punctuation">&#123;</span>% post_link Corda<span class="token punctuation">-</span>API<span class="token punctuation">-</span>Flows 别名 %<span class="token punctuation">&#125;</span>
-<span class="token punctuation">[</span>Corda<span class="token punctuation">-</span>API<span class="token punctuation">-</span>Flows<span class="token punctuation">]</span>(aa15b6d6.html)
-<span class="token punctuation">[</span>别名<span class="token punctuation">]</span>(Corda<span class="token punctuation">-</span>API<span class="token punctuation">-</span>Flows)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
-<a href="/posts/aa15b6d6/" title="Corda-API-Flows">Corda-API-Flows</a>
-
-<a href="/posts/aa15b6d6/" title="别名">别名</a>  
-<p><a href="aa15b6d6.html">Corda-API-Flows</a><br><a href="Corda-API-Flows">别名</a></p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>markdown</tag>
       </tags>
   </entry>
   <entry>
