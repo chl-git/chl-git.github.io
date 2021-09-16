@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>04_寻找两个正序数组的中位数</title>
+    <url>/posts/639f29fb/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>算法</tag>
+        <tag>leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Centos7-Fate环境配置</title>
     <url>/posts/499c0a40/</url>
     <content><![CDATA[<h2 id="手动安装"><a href="#手动安装" class="headerlink" title="手动安装"></a>手动安装</h2><p>OS：Centos7<br>安装时需要注意网络配置</p>
@@ -309,62 +322,19 @@ pip install fate-client<span aria-hidden="true" class="line-numbers-rows"><span>
       </tags>
   </entry>
   <entry>
-    <title>Corda-API-Flows</title>
-    <url>/posts/aa15b6d6/</url>
-    <content><![CDATA[<h2 id="Flows"><a href="#Flows" class="headerlink" title="Flows"></a>Flows</h2><h3 id="一个流程示例"><a href="#一个流程示例" class="headerlink" title="一个流程示例"></a>一个流程示例</h3><p>包括两个方面：</p>
-<ul>
-<li>Initiator：发起方</li>
-<li>Responder：响应方</li>
-</ul>
-<blockquote>
-<p>发起方包含如下流程：</p>
-</blockquote>
-<p>Part1——建立交易</p>
-<ul>
-<li>选择公证人</li>
-<li>创建交易生成器（transaction builder）</li>
-<li>从库中提出所有的输入状态，并添加到生成器中</li>
-<li>创建所有输出并添加到生成器中</li>
-<li>添加commands，attachments和time-window</li>
-</ul>
-<p>Part2——签名</p>
-<ul>
-<li>对交易生成器签名</li>
-<li>将生成器转换为签名过的交易（signed transtraction）</li>
-</ul>
-<p>Part3——验证交易</p>
-<ul>
-<li>通过合同（contracts）验证交易</li>
-</ul>
-<p>Part4——收集交易对手的签名</p>
-<ul>
-<li>将交易</li>
-</ul>
-<h3 id="关闭会话API"><a href="#关闭会话API" class="headerlink" title="关闭会话API"></a>关闭会话API</h3><ul>
-<li>在<code>FLowsession</code>中有<code>clolse()</code></li>
-<li>在<code>FlowLogic</code>中有<code>closw(sessions:NonEmpty&lt;FlowSession&gt;)</code></li>
-</ul>
-<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin"><span class="token keyword">val</span> session <span class="token operator">=</span> <span class="token function">initiateFlow</span><span class="token punctuation">(</span>party<span class="token punctuation">)</span>
-<span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
-    <span class="token operator">..</span><span class="token punctuation">.</span>
-<span class="token punctuation">&#125;</span> <span class="token keyword">finally</span> <span class="token punctuation">&#123;</span>
-    session<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token punctuation">&#125;</span>
-<span class="token keyword">val</span> session <span class="token operator">=</span> <span class="token function">initiateFlow</span><span class="token punctuation">(</span>party<span class="token punctuation">)</span>
-session<span class="token punctuation">.</span><span class="token function">use</span> <span class="token punctuation">&#123;</span>
-    <span class="token operator">..</span><span class="token punctuation">.</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p><em><strong>不要在<code>finally</code>语句块中使用<code>close()</code>，有如下两个原因:</strong></em></p>
-<ul>
-<li>没有必要。上面如果报错，流就会终止，状态机会释放资源和内存等，不需要再调用<code>close()</code>。</li>
-<li>出现我们不期望的结果。例如：我们本应该收到错误信息，但是由于在<code>finally</code>中添加了<code>close()</code>，我们可能得到的是关闭flow的相关信息，而没有得到期望的错误信息。</li>
-</ul>
-]]></content>
+    <title>Corda（1）——基础</title>
+    <url>/posts/8984fc95/</url>
+    <content><![CDATA[<h2 id="区块链基础知识"><a href="#区块链基础知识" class="headerlink" title="区块链基础知识"></a>区块链基础知识</h2><p>中本聪在2008年10月发表了一片论文，其中指出了数字货币中“双花”问题的解决方案。“比特币”开始收到人们的关注，并且区块链技术被越来越多的人认可，在很多领域找到了适用场景。</p>
+<p>在这之前，“双花”是通过可信的第三方机构（最典型的就是银行）对账本进行保管，达到解决问题的目的；而在区块链上，每个参与方都有分类账的副本，如果需要更改记录，需要网络中的节点达成共识，这就可以解决“双花”问题</p>
+<h2 id="Corda"><a href="#Corda" class="headerlink" title="Corda"></a>Corda</h2>]]></content>
+      <categories>
+        <category>Corda</category>
+      </categories>
       <tags>
         <tag>Corda</tag>
-        <tag>Corda-API</tag>
-        <tag>Flow</tag>
+        <tag>密码学</tag>
+        <tag>DLT</tag>
+        <tag>共识</tag>
       </tags>
   </entry>
   <entry>
@@ -450,19 +420,140 @@ session<span class="token punctuation">.</span><span class="token function">use<
       </tags>
   </entry>
   <entry>
-    <title>Corda（1）——基础</title>
-    <url>/posts/8984fc95/</url>
-    <content><![CDATA[<h2 id="区块链基础知识"><a href="#区块链基础知识" class="headerlink" title="区块链基础知识"></a>区块链基础知识</h2><p>中本聪在2008年10月发表了一片论文，其中指出了数字货币中“双花”问题的解决方案。“比特币”开始收到人们的关注，并且区块链技术被越来越多的人认可，在很多领域找到了适用场景。</p>
-<p>在这之前，“双花”是通过可信的第三方机构（最典型的就是银行）对账本进行保管，达到解决问题的目的；而在区块链上，每个参与方都有分类账的副本，如果需要更改记录，需要网络中的节点达成共识，这就可以解决“双花”问题</p>
-<h2 id="Corda"><a href="#Corda" class="headerlink" title="Corda"></a>Corda</h2>]]></content>
+    <title>Corda-API-Flows</title>
+    <url>/posts/aa15b6d6/</url>
+    <content><![CDATA[<h2 id="Flows"><a href="#Flows" class="headerlink" title="Flows"></a>Flows</h2><h3 id="一个流程示例"><a href="#一个流程示例" class="headerlink" title="一个流程示例"></a>一个流程示例</h3><p>包括两个方面：</p>
+<ul>
+<li>Initiator：发起方</li>
+<li>Responder：响应方</li>
+</ul>
+<blockquote>
+<p>发起方包含如下流程：</p>
+</blockquote>
+<p>Part1——建立交易</p>
+<ul>
+<li>选择公证人</li>
+<li>创建交易生成器（transaction builder）</li>
+<li>从库中提出所有的输入状态，并添加到生成器中</li>
+<li>创建所有输出并添加到生成器中</li>
+<li>添加commands，attachments和time-window</li>
+</ul>
+<p>Part2——签名</p>
+<ul>
+<li>对交易生成器签名</li>
+<li>将生成器转换为签名过的交易（signed transtraction）</li>
+</ul>
+<p>Part3——验证交易</p>
+<ul>
+<li>通过合同（contracts）验证交易</li>
+</ul>
+<p>Part4——收集交易对手的签名</p>
+<ul>
+<li>将交易</li>
+</ul>
+<h3 id="关闭会话API"><a href="#关闭会话API" class="headerlink" title="关闭会话API"></a>关闭会话API</h3><ul>
+<li>在<code>FLowsession</code>中有<code>clolse()</code></li>
+<li>在<code>FlowLogic</code>中有<code>closw(sessions:NonEmpty&lt;FlowSession&gt;)</code></li>
+</ul>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin"><span class="token keyword">val</span> session <span class="token operator">=</span> <span class="token function">initiateFlow</span><span class="token punctuation">(</span>party<span class="token punctuation">)</span>
+<span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+    <span class="token operator">..</span><span class="token punctuation">.</span>
+<span class="token punctuation">&#125;</span> <span class="token keyword">finally</span> <span class="token punctuation">&#123;</span>
+    session<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">val</span> session <span class="token operator">=</span> <span class="token function">initiateFlow</span><span class="token punctuation">(</span>party<span class="token punctuation">)</span>
+session<span class="token punctuation">.</span><span class="token function">use</span> <span class="token punctuation">&#123;</span>
+    <span class="token operator">..</span><span class="token punctuation">.</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><em><strong>不要在<code>finally</code>语句块中使用<code>close()</code>，有如下两个原因:</strong></em></p>
+<ul>
+<li>没有必要。上面如果报错，流就会终止，状态机会释放资源和内存等，不需要再调用<code>close()</code>。</li>
+<li>出现我们不期望的结果。例如：我们本应该收到错误信息，但是由于在<code>finally</code>中添加了<code>close()</code>，我们可能得到的是关闭flow的相关信息，而没有得到期望的错误信息。</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>Corda</tag>
+        <tag>Corda-API</tag>
+        <tag>Flow</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Corda（3）——节点数据库配置以及访问</title>
+    <url>/posts/f6070d29/</url>
+    <content><![CDATA[<h2 id="下载H2"><a href="#下载H2" class="headerlink" title="下载H2"></a>下载H2</h2><p><a href="http://www.h2database.com/html/download.html">H2下载</a></p>
+<h2 id="配置节点"><a href="#配置节点" class="headerlink" title="配置节点"></a>配置节点</h2><p>在每个节点的shell中输入<code>bye</code>关闭所有节点。</p>
+<p>到<code>workflows-java/build.gradle</code>文件夹中修改配置</p>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml">nodeDefaults <span class="token punctuation">&#123;</span>
+        cordapp project("<span class="token punctuation">:</span>contracts<span class="token punctuation">-</span>java")
+        // 添加一下代码
+        extraConfig = <span class="token punctuation">[</span>
+            <span class="token key atrule">h2Settings</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+                // A random port will be selected.
+                <span class="token key atrule">address</span> <span class="token punctuation">:</span> <span class="token string">'localhost:0'</span>
+            <span class="token punctuation">]</span>
+        <span class="token punctuation">]</span>
+    <span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>重新部署并运行节点</p>
+<p>在每个shell里面会多出类似下面一行代码：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">Database connection url is              : jdbc:h2:tcp:&#x2F;&#x2F;localhost:61433&#x2F;node<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>启动h2，在页面添加<code>JDBC URL</code>，其他的不用更改(每个节点进行同样的操作)</p>
+<p><strong>可以选择语言</strong></p>
+<p><img src="/posts/f6070d29/h2%E8%BF%9E%E6%8E%A5.png" alt="h2连接"></p>
+<h2 id="创建IOU"><a href="#创建IOU" class="headerlink" title="创建IOU"></a>创建IOU</h2><p>在PartyA输入一下命令：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">flow start Initiator iouValue: 50,otherParty:&quot;O&#x3D;PartyB,L&#x3D;New York,C&#x3D;US&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>当然可以在<code>PartyB</code>先进行监听（上面已经提到<code>vaultTrack</code>）</p>
+<p>在<code>PartyA</code>和<code>PartyB</code>的web控制台上找到并点击VAULT_STATES,然后点击运行，会显示一条记录，在其他的节点查询不到相关信息。</p>
+<p>在<code>PartyA</code>和<code>PartyB</code>会多一个<code>IOU_STATES</code>，查询得到如下的信息：</p>
+<p><img src="/posts/f6070d29/iouStates.png" alt="iouStates"></p>
+<p>列名在<code>IOUState</code>的<a href="https://github.com/corda/samples-java/blob/a61e2cc9910d7d5de83122bf7d36fd071796a7c3/Basic/cordapp-example/contracts-java/src/main/java/com/example/state/IOUState.java#L56-L59">schema</a>中定义。</p>
+<p>我们知道，一个’state’的唯一性由产生它的<code>transaction</code>和作为输出的列表中的<code>index</code>表示，这个特性在<a href="https://github.com/corda/corda/blob/67e3e09a4edb41d17b8adfa669d671c690c5db33/core/src/main/kotlin/net/corda/core/contracts/Structures.kt#L154-L163"><code>StateRdf class</code></a>中定义</p>
+<p>在h2web控制台中<code>PartyA</code>和<code>PartyB</code>的<code>IOU_STATES</code>可以看到(<code>VAULT_STATES</code>也可以看到)：<br><img src="/posts/f6070d29/unique.png" alt="unique"></p>
+<h2 id="checkpoints"><a href="#checkpoints" class="headerlink" title="checkpoints"></a>checkpoints</h2><p>关闭<code>PartyC</code>和<code>Notary</code>，在<code>PartyA</code>中创建和 <code>PartyC</code>的IOU，</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">Mon Apr 05 15:37:24 CST 2021&gt;&gt;&gt; flow start Initiator iouValue: 5,otherParty: &quot;O&#x3D;PartyC,L&#x3D;Paris,C&#x3D;FR&quot;
+Starting
+Generating transaction based on new IOU.
+Verifying contract constraints.
+Signing transaction with our private key.
+Gathering the counterparty&#39;s signature.
+Collecting signatures from counterparties.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>会停在<code>colecting signatures from counterparties</code>这里，可以在h2web控制台中查看<code>PartyA</code>的信息，可以看到<code>IOU_STATE</code>没有增加记录，但是在<code>NODE_CHECKPOINTS</code>中有一条记录如下：<br><img src="/posts/f6070d29/checkpoints_PartyA.png" alt="NODE_CHECKPOINTS"></p>
+<p>重新运行PartyC：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">&#x2F;&#x2F; 必须先进入workflows-java&#x2F;build&#x2F;nodes&#x2F;PartyC
+cd workflows-java&#x2F;build&#x2F;nodes&#x2F;PartyC
+java -jar corda.jar
+
+&#x2F;&#x2F;下面这个命令是不行的，提示找不到&#96;node.conf&#96;
+&#x2F;&#x2F;java -jar workflows-java&#x2F;build&#x2F;nodes&#x2F;PartyC&#x2F;corda.jar<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="more-details"><a href="#more-details" class="headerlink" title="more details"></a>more details</h2><p><code>Notary</code>提供交易的唯一性标识，并且避免双花，但是我们上面的创建IOU的过程是不涉及到<code>state</code>的消耗的，所以就算在<code>workflows-java/build.gradle</code>中将<code>Notary</code>的<code>validating</code>,改为<code>true</code>，当不启动<code>Natory</code>时，也会完成上面的流程，或者说上面的<code>transactions</code>是没有输入的，是不需要<code>Notary</code>参与的。</p>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml">node <span class="token punctuation">&#123;</span>
+    name "O=Notary<span class="token punctuation">,</span>L=London<span class="token punctuation">,</span>C=GB"
+    notary = <span class="token punctuation">[</span><span class="token key atrule">validating</span> <span class="token punctuation">:</span> <span class="token boolean important">false</span><span class="token punctuation">]</span> //这里改为true
+    p2pPort 10000
+    rpcSettings <span class="token punctuation">&#123;</span>
+        address("localhost<span class="token punctuation">:</span>10001")
+        adminAddress("localhost<span class="token punctuation">:</span>10002")
+    <span class="token punctuation">&#125;</span>
+    projectCordapp <span class="token punctuation">&#123;</span>
+        deploy = false
+    <span class="token punctuation">&#125;</span>
+    cordapps.clear()
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="jar-注入"><a href="#jar-注入" class="headerlink" title=".jar 注入"></a>.jar 注入</h2><p>在每一个节点的文件夹中都有数据cordapps，这是完整整个<code>flow</code>必须的.jar。</p>
+]]></content>
       <categories>
         <category>Corda</category>
       </categories>
       <tags>
         <tag>Corda</tag>
-        <tag>密码学</tag>
-        <tag>DLT</tag>
-        <tag>共识</tag>
+        <tag>H2数据库</tag>
       </tags>
   </entry>
   <entry>
@@ -638,84 +729,6 @@ Waiting <span class="token keyword">for</span> completion or Ctrl-C <span class=
       </tags>
   </entry>
   <entry>
-    <title>Corda（3）——节点数据库配置以及访问</title>
-    <url>/posts/f6070d29/</url>
-    <content><![CDATA[<h2 id="下载H2"><a href="#下载H2" class="headerlink" title="下载H2"></a>下载H2</h2><p><a href="http://www.h2database.com/html/download.html">H2下载</a></p>
-<h2 id="配置节点"><a href="#配置节点" class="headerlink" title="配置节点"></a>配置节点</h2><p>在每个节点的shell中输入<code>bye</code>关闭所有节点。</p>
-<p>到<code>workflows-java/build.gradle</code>文件夹中修改配置</p>
-<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml">nodeDefaults <span class="token punctuation">&#123;</span>
-        cordapp project("<span class="token punctuation">:</span>contracts<span class="token punctuation">-</span>java")
-        // 添加一下代码
-        extraConfig = <span class="token punctuation">[</span>
-            <span class="token key atrule">h2Settings</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
-                // A random port will be selected.
-                <span class="token key atrule">address</span> <span class="token punctuation">:</span> <span class="token string">'localhost:0'</span>
-            <span class="token punctuation">]</span>
-        <span class="token punctuation">]</span>
-    <span class="token punctuation">&#125;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>重新部署并运行节点</p>
-<p>在每个shell里面会多出类似下面一行代码：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">Database connection url is              <span class="token builtin class-name">:</span> jdbc:h2:tcp://localhost:61433/node<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>启动h2，在页面添加<code>JDBC URL</code>，其他的不用更改(每个节点进行同样的操作)</p>
-<p><strong>可以选择语言</strong></p>
-<p><img src="/posts/f6070d29/h2%E8%BF%9E%E6%8E%A5.png" alt="h2连接"></p>
-<h2 id="创建IOU"><a href="#创建IOU" class="headerlink" title="创建IOU"></a>创建IOU</h2><p>在PartyA输入一下命令：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">flow start Initiator iouValue: <span class="token number">50</span>,otherParty:<span class="token string">"O=PartyB,L=New York,C=US"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>当然可以在<code>PartyB</code>先进行监听（上面已经提到<code>vaultTrack</code>）</p>
-<p>在<code>PartyA</code>和<code>PartyB</code>的web控制台上找到并点击VAULT_STATES,然后点击运行，会显示一条记录，在其他的节点查询不到相关信息。</p>
-<p>在<code>PartyA</code>和<code>PartyB</code>会多一个<code>IOU_STATES</code>，查询得到如下的信息：</p>
-<p><img src="/posts/f6070d29/iouStates.png" alt="iouStates"></p>
-<p>列名在<code>IOUState</code>的<a href="https://github.com/corda/samples-java/blob/a61e2cc9910d7d5de83122bf7d36fd071796a7c3/Basic/cordapp-example/contracts-java/src/main/java/com/example/state/IOUState.java#L56-L59">schema</a>中定义。</p>
-<p>我们知道，一个’state’的唯一性由产生它的<code>transaction</code>和作为输出的列表中的<code>index</code>表示，这个特性在<a href="https://github.com/corda/corda/blob/67e3e09a4edb41d17b8adfa669d671c690c5db33/core/src/main/kotlin/net/corda/core/contracts/Structures.kt#L154-L163"><code>StateRdf class</code></a>中定义</p>
-<p>在h2web控制台中<code>PartyA</code>和<code>PartyB</code>的<code>IOU_STATES</code>可以看到(<code>VAULT_STATES</code>也可以看到)：<br><img src="/posts/f6070d29/unique.png" alt="unique"></p>
-<h2 id="checkpoints"><a href="#checkpoints" class="headerlink" title="checkpoints"></a>checkpoints</h2><p>关闭<code>PartyC</code>和<code>Notary</code>，在<code>PartyA</code>中创建和 <code>PartyC</code>的IOU，</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">Mon Apr 05 <span class="token number">15</span>:37:24 CST <span class="token number">202</span><span class="token operator"><span class="token file-descriptor important">1</span>>></span><span class="token operator">></span> flow start Initiator iouValue: <span class="token number">5</span>,otherParty: <span class="token string">"O=PartyC,L=Paris,C=FR"</span>
-Starting
-Generating transaction based on new IOU.
-Verifying contract constraints.
-Signing transaction with our private key.
-Gathering the counterparty's signature.
-Collecting signatures from counterparties.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>会停在<code>colecting signatures from counterparties</code>这里，可以在h2web控制台中查看<code>PartyA</code>的信息，可以看到<code>IOU_STATE</code>没有增加记录，但是在<code>NODE_CHECKPOINTS</code>中有一条记录如下：<br><img src="/posts/f6070d29/checkpoints_PartyA.png" alt="NODE_CHECKPOINTS"></p>
-<p>重新运行PartyC：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">// 必须先进入workflows-java/build/nodes/PartyC
-<span class="token builtin class-name">cd</span> workflows-java/build/nodes/PartyC
-java -jar corda.jar
-
-//下面这个命令是不行的，提示找不到<span class="token variable"><span class="token variable">`</span>node.conf<span class="token variable">`</span></span>
-//java -jar workflows-java/build/nodes/PartyC/corda.jar<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="more-details"><a href="#more-details" class="headerlink" title="more details"></a>more details</h2><p><code>Notary</code>提供交易的唯一性标识，并且避免双花，但是我们上面的创建IOU的过程是不涉及到<code>state</code>的消耗的，所以就算在<code>workflows-java/build.gradle</code>中将<code>Notary</code>的<code>validating</code>,改为<code>true</code>，当不启动<code>Natory</code>时，也会完成上面的流程，或者说上面的<code>transactions</code>是没有输入的，是不需要<code>Notary</code>参与的。</p>
-<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml">node <span class="token punctuation">&#123;</span>
-    name "O=Notary<span class="token punctuation">,</span>L=London<span class="token punctuation">,</span>C=GB"
-    notary = <span class="token punctuation">[</span><span class="token key atrule">validating</span> <span class="token punctuation">:</span> <span class="token boolean important">false</span><span class="token punctuation">]</span> //这里改为true
-    p2pPort 10000
-    rpcSettings <span class="token punctuation">&#123;</span>
-        address("localhost<span class="token punctuation">:</span>10001")
-        adminAddress("localhost<span class="token punctuation">:</span>10002")
-    <span class="token punctuation">&#125;</span>
-    projectCordapp <span class="token punctuation">&#123;</span>
-        deploy = false
-    <span class="token punctuation">&#125;</span>
-    cordapps.clear()
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="jar-注入"><a href="#jar-注入" class="headerlink" title=".jar 注入"></a>.jar 注入</h2><p>在每一个节点的文件夹中都有数据cordapps，这是完整整个<code>flow</code>必须的.jar。</p>
-]]></content>
-      <categories>
-        <category>Corda</category>
-      </categories>
-      <tags>
-        <tag>Corda</tag>
-        <tag>H2数据库</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Corda（4）——单元测试</title>
     <url>/posts/b07c1e78/</url>
     <content><![CDATA[<p><a href="https://training.corda.net/prepare-and-discover/discover-tests/">查看链接</a></p>
@@ -762,18 +775,6 @@ java -jar corda.jar
       </tags>
   </entry>
   <entry>
-    <title>Corda（5）——Accounts</title>
-    <url>/posts/4327cc6a/</url>
-    <content><![CDATA[<h2 id="这一部分后面补上"><a href="#这一部分后面补上" class="headerlink" title="这一部分后面补上"></a>这一部分后面补上</h2>]]></content>
-      <categories>
-        <category>Corda</category>
-      </categories>
-      <tags>
-        <tag>Corda</tag>
-        <tag>Accouts</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Git初识</title>
     <url>/posts/89f97af8/</url>
     <content><![CDATA[<p><strong>拉取代码：</strong><br>git pull</p>
@@ -788,6 +789,18 @@ java -jar corda.jar
       <tags>
         <tag>Git</tag>
         <tag>branch</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Corda（5）——Accounts</title>
+    <url>/posts/4327cc6a/</url>
+    <content><![CDATA[<h2 id="这一部分后面补上"><a href="#这一部分后面补上" class="headerlink" title="这一部分后面补上"></a>这一部分后面补上</h2>]]></content>
+      <categories>
+        <category>Corda</category>
+      </categories>
+      <tags>
+        <tag>Corda</tag>
+        <tag>Accouts</tag>
       </tags>
   </entry>
   <entry>
@@ -937,34 +950,6 @@ println <span class="token string gstring">"hello"</span> <span aria-hidden="tru
       </tags>
   </entry>
   <entry>
-    <title>Tokens SDK</title>
-    <url>/posts/b3ff0665/</url>
-    <content><![CDATA[<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>广义来说，token有如下两个定义：</p>
-<ul>
-<li><p>存托凭证（A depository receipt）：这意味着它是对存在于账本之外的东西的分类账本表示；</p>
-</li>
-<li><p>本机令牌（A native token）：一个本机令牌，表示该值实际上存在于分类帐中，并且无法将其用于账本之外的东西，因为该东西甚至不存在于分类账之外。</p>
-</li>
-</ul>
-<p>令牌可以是<code>ContractState</code>，<code>LinearState</code>，<code>OwnableState</code>或<code>FungibleAsset</code>之一或组合，带有以下3个命令：Issue，Move和Redeem。</p>
-<p>可以根据如下设计流（design flow）为tokens构建框架：</p>
-<p><img src="/posts/b3ff0665/%E8%AE%BE%E8%AE%A1%E6%B5%81.png" alt="Design Flow"></p>
-<h3 id="TokenType"><a href="#TokenType" class="headerlink" title="TokenType"></a>TokenType</h3><p><code>TokenType</code> 是固定单位，您发出该单位的标记。它只需要一个标识符（tokenidentifier），例如 RMB，以及小数位数字的个数(fractionDigits)，这些小数位数本质上定义了令牌的最小面值。(如[RMB token-type，0.01]表示人民币的最小面额为分)。</p>
-<p>根据上面的Design Flow，TokenType在设计之后使用的整个生命周期是不可变的，但是在设计的时候可以根据需要扩展，添加除前面已经提到的标识符和小数位数之外的其他属性，但是一旦定义在流通及回收的过程中就是不可以变的。</p>
-<h3 id="EvovableTokenType"><a href="#EvovableTokenType" class="headerlink" title="EvovableTokenType"></a>EvovableTokenType</h3><p>与<code>TokenType</code> 实例不同，<code>EvolvableTokenType</code> 实例是一个 <code>LinearState</code> 实例，该实例将随着时间的推移根据相应的规则而演变。此外，还提供了部分流（<code>flows</code>）促进这种转变。</p>
-<p>可以考虑一辆车，车的品牌、型号、车的标识码是不变的，但是里程数，价格是会随着时间的推移改变的。</p>
-]]></content>
-      <categories>
-        <category>Corda</category>
-      </categories>
-      <tags>
-        <tag>SDK</tag>
-        <tag>token</tag>
-        <tag>fungible</tag>
-        <tag>non-fungible</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Markdown语法</title>
     <url>/posts/3c50d03d/</url>
     <content><![CDATA[<p>部分markdown语法的学习</p>
@@ -1045,52 +1030,6 @@ $$<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><
       <tags>
         <tag>MD</tag>
         <tag>Markdown</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo</title>
-    <url>/posts/310047be/</url>
-    <content><![CDATA[<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">&#123;</span>% blockquote Seth Godin http<span class="token punctuation">:</span>//sethgodin.typepad.com/seths_blog/2009/07/welcome<span class="token punctuation">-</span>to<span class="token punctuation">-</span>island<span class="token punctuation">-</span>marketing.html Welcome to Island Marketing %<span class="token punctuation">&#125;</span>
-Every interaction is both precious and an opportunity to delight.
-<span class="token punctuation">&#123;</span>% endblockquote %<span class="token punctuation">&#125;</span>
-
-<span class="token punctuation">></span> Every interaction is both precious and an opportunity to delight.
-<span class="token important">**Seth</span> Godin<span class="token important">**</span> — <span class="token punctuation">[</span><span class="token important">*Welcome</span> to Island Marketing*<span class="token punctuation">]</span>(http<span class="token punctuation">:</span>//sethgodin.typepad.com/seths_blog/2009/07/welcome<span class="token punctuation">-</span>to<span class="token punctuation">-</span>island<span class="token punctuation">-</span>marketing.html)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<blockquote><p>Every interaction is both precious and an opportunity to delight.</p>
-<footer><strong>Seth Godin <http://sethgodin.typepad.com/seths_blog/2009/07/welcome-to-island-marketing.html> Welcome to Island Marketing</strong></footer></blockquote>
-
-<blockquote>
-<p>Every interaction is both precious and an opportunity to delight.<br><strong>Seth Godin</strong> — <a href="http://sethgodin.typepad.com/seths_blog/2009/07/welcome-to-island-marketing.html"><em>Welcome to Island Marketing</em></a></p>
-</blockquote>
-<h2 id="插入YouTube视频（是可以直接播放的）"><a href="#插入YouTube视频（是可以直接播放的）" class="headerlink" title="插入YouTube视频（是可以直接播放的）"></a>插入YouTube视频（是可以直接播放的）</h2><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">&#123;</span>% youtube lJIrF4YjHfQ %<span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#123;</span>% youtube PL9hW1uS6HUfscJ9DHkOSoOX45MjXduUxo 'playlist' %<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<div class="video-container"><iframe src="https://www.youtube.com/embed/lJIrF4YjHfQ" frameborder="0" loading="lazy" allowfullscreen></iframe></div>
-<div class="video-container"><iframe src="https://www.youtube.com/embed/videoseries?list=PL9hW1uS6HUfscJ9DHkOSoOX45MjXduUxo" frameborder="0" loading="lazy" allowfullscreen></iframe></div>
-
-<h3 id="隐私模式"><a href="#隐私模式" class="headerlink" title="隐私模式"></a>隐私模式</h3><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">&#123;</span>% youtube lJIrF4YjHfQ false %<span class="token punctuation">&#125;</span> <span class="token comment"># 添加false参数</span>
-<span class="token punctuation">&#123;</span>% youtube PL9hW1uS6HUfscJ9DHkOSoOX45MjXduUxo 'playlist' false %<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<h2 id="插入Vimeo视频"><a href="#插入Vimeo视频" class="headerlink" title="插入Vimeo视频"></a>插入Vimeo视频</h2><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">&#123;</span>% vimeo video_id %<span class="token punctuation">&#125;</span> <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="引用其他文章"><a href="#引用其他文章" class="headerlink" title="引用其他文章"></a>引用其他文章</h2><p><code>&#123;% post_link filename [title] [escape] %&#125;</code><br><code>[]()</code></p>
-<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">&#123;</span>% post_link Corda<span class="token punctuation">-</span>API<span class="token punctuation">-</span>Flows %<span class="token punctuation">&#125;</span> <span class="token comment"># 找的是绝对路径</span>
-<span class="token punctuation">&#123;</span>% post_link Corda<span class="token punctuation">-</span>API<span class="token punctuation">-</span>Flows 别名 %<span class="token punctuation">&#125;</span>
-<span class="token punctuation">[</span>Corda<span class="token punctuation">-</span>API<span class="token punctuation">-</span>Flows<span class="token punctuation">]</span>(aa15b6d6.html)
-<span class="token punctuation">[</span>别名<span class="token punctuation">]</span>(Corda<span class="token punctuation">-</span>API<span class="token punctuation">-</span>Flows)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
-<a href="/posts/aa15b6d6/" title="Corda-API-Flows">Corda-API-Flows</a>
-
-<a href="/posts/aa15b6d6/" title="别名">别名</a>  
-<p><a href="aa15b6d6.html">Corda-API-Flows</a><br><a href="Corda-API-Flows">别名</a></p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>markdown</tag>
       </tags>
   </entry>
   <entry>
@@ -1432,6 +1371,80 @@ Every interaction is both precious and an opportunity to delight.
         <tag>vim</tag>
         <tag>linux</tag>
         <tag>编辑器</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Tokens SDK</title>
+    <url>/posts/b3ff0665/</url>
+    <content><![CDATA[<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>广义来说，token有如下两个定义：</p>
+<ul>
+<li><p>存托凭证（A depository receipt）：这意味着它是对存在于账本之外的东西的分类账本表示；</p>
+</li>
+<li><p>本机令牌（A native token）：一个本机令牌，表示该值实际上存在于分类帐中，并且无法将其用于账本之外的东西，因为该东西甚至不存在于分类账之外。</p>
+</li>
+</ul>
+<p>令牌可以是<code>ContractState</code>，<code>LinearState</code>，<code>OwnableState</code>或<code>FungibleAsset</code>之一或组合，带有以下3个命令：Issue，Move和Redeem。</p>
+<p>可以根据如下设计流（design flow）为tokens构建框架：</p>
+<p><img src="/posts/b3ff0665/%E8%AE%BE%E8%AE%A1%E6%B5%81.png" alt="Design Flow"></p>
+<h3 id="TokenType"><a href="#TokenType" class="headerlink" title="TokenType"></a>TokenType</h3><p><code>TokenType</code> 是固定单位，您发出该单位的标记。它只需要一个标识符（tokenidentifier），例如 RMB，以及小数位数字的个数(fractionDigits)，这些小数位数本质上定义了令牌的最小面值。(如[RMB token-type，0.01]表示人民币的最小面额为分)。</p>
+<p>根据上面的Design Flow，TokenType在设计之后使用的整个生命周期是不可变的，但是在设计的时候可以根据需要扩展，添加除前面已经提到的标识符和小数位数之外的其他属性，但是一旦定义在流通及回收的过程中就是不可以变的。</p>
+<h3 id="EvovableTokenType"><a href="#EvovableTokenType" class="headerlink" title="EvovableTokenType"></a>EvovableTokenType</h3><p>与<code>TokenType</code> 实例不同，<code>EvolvableTokenType</code> 实例是一个 <code>LinearState</code> 实例，该实例将随着时间的推移根据相应的规则而演变。此外，还提供了部分流（<code>flows</code>）促进这种转变。</p>
+<p>可以考虑一辆车，车的品牌、型号、车的标识码是不变的，但是里程数，价格是会随着时间的推移改变的。</p>
+]]></content>
+      <categories>
+        <category>Corda</category>
+      </categories>
+      <tags>
+        <tag>SDK</tag>
+        <tag>token</tag>
+        <tag>fungible</tag>
+        <tag>non-fungible</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo</title>
+    <url>/posts/310047be/</url>
+    <content><![CDATA[<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">&#123;</span>% blockquote Seth Godin http<span class="token punctuation">:</span>//sethgodin.typepad.com/seths_blog/2009/07/welcome<span class="token punctuation">-</span>to<span class="token punctuation">-</span>island<span class="token punctuation">-</span>marketing.html Welcome to Island Marketing %<span class="token punctuation">&#125;</span>
+Every interaction is both precious and an opportunity to delight.
+<span class="token punctuation">&#123;</span>% endblockquote %<span class="token punctuation">&#125;</span>
+
+<span class="token punctuation">></span> Every interaction is both precious and an opportunity to delight.
+<span class="token important">**Seth</span> Godin<span class="token important">**</span> — <span class="token punctuation">[</span><span class="token important">*Welcome</span> to Island Marketing*<span class="token punctuation">]</span>(http<span class="token punctuation">:</span>//sethgodin.typepad.com/seths_blog/2009/07/welcome<span class="token punctuation">-</span>to<span class="token punctuation">-</span>island<span class="token punctuation">-</span>marketing.html)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote><p>Every interaction is both precious and an opportunity to delight.</p>
+<footer><strong>Seth Godin <http://sethgodin.typepad.com/seths_blog/2009/07/welcome-to-island-marketing.html> Welcome to Island Marketing</strong></footer></blockquote>
+
+<blockquote>
+<p>Every interaction is both precious and an opportunity to delight.<br><strong>Seth Godin</strong> — <a href="http://sethgodin.typepad.com/seths_blog/2009/07/welcome-to-island-marketing.html"><em>Welcome to Island Marketing</em></a></p>
+</blockquote>
+<h2 id="插入YouTube视频（是可以直接播放的）"><a href="#插入YouTube视频（是可以直接播放的）" class="headerlink" title="插入YouTube视频（是可以直接播放的）"></a>插入YouTube视频（是可以直接播放的）</h2><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">&#123;</span>% youtube lJIrF4YjHfQ %<span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#123;</span>% youtube PL9hW1uS6HUfscJ9DHkOSoOX45MjXduUxo 'playlist' %<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<div class="video-container"><iframe src="https://www.youtube.com/embed/lJIrF4YjHfQ" frameborder="0" loading="lazy" allowfullscreen></iframe></div>
+<div class="video-container"><iframe src="https://www.youtube.com/embed/videoseries?list=PL9hW1uS6HUfscJ9DHkOSoOX45MjXduUxo" frameborder="0" loading="lazy" allowfullscreen></iframe></div>
+
+<h3 id="隐私模式"><a href="#隐私模式" class="headerlink" title="隐私模式"></a>隐私模式</h3><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">&#123;</span>% youtube lJIrF4YjHfQ false %<span class="token punctuation">&#125;</span> <span class="token comment"># 添加false参数</span>
+<span class="token punctuation">&#123;</span>% youtube PL9hW1uS6HUfscJ9DHkOSoOX45MjXduUxo 'playlist' false %<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h2 id="插入Vimeo视频"><a href="#插入Vimeo视频" class="headerlink" title="插入Vimeo视频"></a>插入Vimeo视频</h2><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">&#123;</span>% vimeo video_id %<span class="token punctuation">&#125;</span> <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="引用其他文章"><a href="#引用其他文章" class="headerlink" title="引用其他文章"></a>引用其他文章</h2><p><code>&#123;% post_link filename [title] [escape] %&#125;</code><br><code>[]()</code></p>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">&#123;</span>% post_link Corda<span class="token punctuation">-</span>API<span class="token punctuation">-</span>Flows %<span class="token punctuation">&#125;</span> <span class="token comment"># 找的是绝对路径</span>
+<span class="token punctuation">&#123;</span>% post_link Corda<span class="token punctuation">-</span>API<span class="token punctuation">-</span>Flows 别名 %<span class="token punctuation">&#125;</span>
+<span class="token punctuation">[</span>Corda<span class="token punctuation">-</span>API<span class="token punctuation">-</span>Flows<span class="token punctuation">]</span>(aa15b6d6.html)
+<span class="token punctuation">[</span>别名<span class="token punctuation">]</span>(Corda<span class="token punctuation">-</span>API<span class="token punctuation">-</span>Flows)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<a href="/posts/aa15b6d6/" title="Corda-API-Flows">Corda-API-Flows</a>
+
+<a href="/posts/aa15b6d6/" title="别名">别名</a>  
+<p><a href="aa15b6d6.html">Corda-API-Flows</a><br><a href="Corda-API-Flows">别名</a></p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>markdown</tag>
       </tags>
   </entry>
   <entry>
